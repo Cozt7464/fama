@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JSFiddle L7j4b1zv</title>
+
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    direction: rtl;
+    text-align: right;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* لون خلفية فاتح */
+}
+
+.hidden {
+    display: none;
+}
+
+#login-page, #main-page {
+    padding: 20px;
+    text-align: center;
+}
+
+/* الشريط العلوي */
+.top-bar {
+    background-color: #ff0000; /* أحمر يوتيوب */
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#side-menu-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#search-bar {
+    width: 80%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* القائمة الجانبية */
+#side-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #282828; /* أسود داكن */
+    color: white;
+    padding: 20px;
+    width: 250px;
+    height: 100%;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+#side-menu button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ff0000; /* أحمر يوتيوب */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#side-menu button:hover {
+    background-color: #cc0000; /* أحمر داكن */
+}
+
+/* الصفحات */
+.page {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.page h2 {
+    margin-top: 0;
+    color: #ff0000; /* أحمر يوتيوب */
+}
+
+.page label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.page input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.page button {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ff0000; /* أحمر يوتيوب */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.page button:hover {
+    background-color: #cc0000; /* أحمر داكن */
+}
+
+/* الإشعارات */
+#notification {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: #282828; /* أسود داكن */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#notification-message {
+    margin: 0;
+}
+  </style>
+
+  
+</head>
+<body>
+  <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الربح من الإعلانات</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- واجهة تسجيل الدخول -->
+    <div id="login-page">
+        <h1>تسجيل الدخول</h1>
+        <button id="google-login">تسجيل الدخول عن طريق جوجل</button>
+    </div>
+
+    <!-- الواجهة الرئيسية -->
+    <div id="main-page" class="hidden">
+        <!-- الشريط العلوي -->
+        <div class="top-bar">
+            <button id="side-menu-button">☰</button>
+            <input type="text" id="search-bar" placeholder="ابحث هنا...">
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="content">
+            <h1 id="page-title">إحصائياتك</h1>
+            <!-- الأشرطة الإحصائية -->
+            <div id="stats-page" class="page">
+                <h2>إحصائياتك</h2>
+                <p>نقاط الإعلانات: <span id="ad-points">0</span>/1000</p>
+                <p>المتابعين: <span id="followers">0</span>/500</p>
+                <p>نقاط اليوتيوب: <span id="youtube-points">0</span>/1</p>
+                <p>نقاط VIP: <span id="vip-points">0</span></p>
+                <p>نقاط الإحالات: <span id="referral-points">0</span>/25</p>
+                <p>المستوى: <span id="user-level">1</span></p>
+            </div>
+
+            <!-- صفحة طلب الدفع -->
+            <div id="payment-page" class="page hidden">
+                <h2>طلب الدفع</h2>
+                <p>لقد جمعت النقاط المطلوبة! يمكنك الآن طلب الدفع.</p>
+                <button id="request-payment">طلب الدفع</button>
+            </div>
+
+            <!-- صفحة VIP -->
+            <div id="vip-page" class="page hidden">
+                <h2>اشتراك VIP</h2>
+                <form id="vip-form">
+                    <label for="first-name">الإسم الشخصي:</label>
+                    <input type="text" id="first-name" required>
+
+                    <label for="last-name">الإسم العائلي:</label>
+                    <input type="text" id="last-name" required>
+
+                    <label for="email">البريد الإلكتروني:</label>
+                    <input type="email" id="email" required>
+
+                    <label for="id-number">الرقم التعريفي:</label>
+                    <input type="text" id="id-number" required>
+
+                    <label for="passport-number">رقم .ط .و. :</label>
+                    <input type="text" id="passport-number" required>
+
+                    <label for="birthdate">تاريخ الإزدياد:</label>
+                    <input type="date" id="birthdate" required>
+
+                    <label for="paypal-email">بريد المستخدم بايبال:</label>
+                    <input type="email" id="paypal-email" required>
+
+                    <button type="submit">الدفع عبر PayPal</button>
+                </form>
+                <button id="download-receipt">تحميل الوثيقة</button>
+            </div>
+
+            <!-- صفحة المهام اليومية -->
+            <div id="daily-tasks-page" class="page hidden">
+                <h2>المهام اليومية</h2>
+                <p>شاهد 3 إعلانات اليوم لتحصل على 30 نقطة إضافية!</p>
+                <button id="complete-task">أكمل المهمة</button>
+            </div>
+
+            <!-- صفحة لوحة المتصدرين -->
+            <div id="leaderboard-page" class="page hidden">
+                <h2>لوحة المتصدرين</h2>
+                <ul id="leaderboard-list"></ul>
+            </div>
+
+            <!-- صفحة الألعاب المصغرة -->
+            <div id="games-page" class="page hidden">
+                <h2>الألعاب المصغرة</h2>
+                <button id="memory-game">لعبة الذاكرة</button>
+                <button id="puzzle-game">لعبة الألغاز</button>
+            </div>
+        </div>
+
+        <!-- الشريط السفلي -->
+        <div class="bottom-bar">
+            <button id="support-button">الدعم</button>
+            <button id="menu-button">القائمة</button>
+        </div>
+
+        <!-- القائمة الجانبية -->
+        <div id="side-menu" class="hidden">
+            <button id="stats-button">الإحصائيات</button>
+            <button id="payment-menu-button">طلب الدفع</button>
+            <button id="vip-menu-button">اشتراك VIP</button>
+            <button id="daily-tasks-button">المهام اليومية</button>
+            <button id="leaderboard-button">لوحة المتصدرين</button>
+            <button id="games-button">الألعاب المصغرة</button>
+            <button id="close-side-menu-button">إغلاق القائمة</button>
+        </div>
+    </div>
+
+    <!-- الإشعارات -->
+    <div id="notification" class="hidden">
+        <p id="notification-message"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+  <script>
+    // عناصر DOM
+const loginPage = document.getElementById('login-page');
+const mainPage = document.getElementById('main-page');
+const googleLoginButton = document.getElementById('google-login');
+const sideMenuButton = document.getElementById('side-menu-button');
+const sideMenu = document.getElementById('side-menu');
+const closeSideMenuButton = document.getElementById('close-side-menu-button');
+const pages = document.querySelectorAll('.page');
+const pageTitle = document.getElementById('page-title');
+
+// بيانات المستخدم
+let userData = {
+    adPoints: 0,
+    followers: 0,
+    youtubePoints: 0,
+    vipPoints: 0,
+    referralPoints: 0,
+    isVIP: false,
+    level: 1,
+    dailyTasksCompleted: 0
+};
+
+// وظيفة تسجيل الدخول عن طريق جوجل (وهمي)
+googleLoginButton.addEventListener('click', () => {
+    userData = { ...userData, username: 'مستخدم', email: 'user@example.com' };
+    saveUserData(userData);
+    showNotification('تم تسجيل الدخول عن طريق جوجل');
+    loginPage.classList.add('hidden');
+    mainPage.classList.remove('hidden');
+    updateStats();
+    showWelcomeNotification();
+});
+
+// وظيفة إظهار/إخفاء القائمة الجانبية
+sideMenuButton.addEventListener('click', () => {
+    sideMenu.classList.remove('hidden');
+});
+
+closeSideMenuButton.addEventListener('click', () => {
+    sideMenu.classList.add('hidden');
+});
+
+// وظيفة تغيير الصفحة
+function showPage(pageId) {
+    pages.forEach(page => {
+        if (page.id === pageId) {
+            page.classList.remove('hidden');
+            const pageTitleElement = page.querySelector('h2');
+            if (pageTitleElement) {
+                pageTitle.textContent = pageTitleElement.textContent;
+            } else {
+                pageTitle.textContent = "الصفحة الرئيسية"; // عنوان افتراضي
+            }
+        } else {
+            page.classList.add('hidden');
+        }
+    });
+}
+
+// إظهار الصفحات عند النقر على الأزرار
+document.getElementById('stats-button').addEventListener('click', () => {
+    showPage('stats-page');
+    sideMenu.classList.add('hidden');
+});
+
+document.getElementById('payment-menu-button').addEventListener('click', () => {
+    showPage('payment-page');
+    sideMenu.classList.add('hidden');
+});
+
+document.getElementById('vip-menu-button').addEventListener('click', () => {
+    showPage('vip-page');
+    sideMenu.classList.add('hidden');
+});
+
+document.getElementById('daily-tasks-button').addEventListener('click', () => {
+    showPage('daily-tasks-page');
+    sideMenu.classList.add('hidden');
+});
+
+document.getElementById('leaderboard-button').addEventListener('click', () => {
+    showPage('leaderboard-page');
+    sideMenu.classList.add('hidden');
+});
+
+document.getElementById('games-button').addEventListener('click', () => {
+    showPage('games-page');
+    sideMenu.classList.add('hidden');
+});
+
+// وظيفة طلب الدفع
+document.getElementById('request-payment').addEventListener('click', () => {
+    showNotification('تم إرسال طلب الدفع بنجاح!');
+});
+
+// وظيفة الدفع عبر PayPal
+document.getElementById('vip-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    showNotification('تمت إضافة نقاط VIP بعد التحقق من الدفع!');
+});
+
+// وظيفة تحميل الوثيقة
+document.getElementById('download-receipt').addEventListener('click', () => {
+    showNotification('تم تحميل الوثيقة بنجاح!');
+});
+
+// وظيفة إظهار الإشعارات
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    notificationMessage.textContent = message;
+    notification.classList.remove('hidden');
+    setTimeout(() => {
+        notification.classList.add('hidden');
+    }, 3000);
+}
+
+// إشعار ترحيبي
+function showWelcomeNotification() {
+    showNotification('مرحبًا بك في تطبيق الربح من الإعلانات!');
+}
+
+// وظائف قاعدة البيانات (LocalStorage)
+function saveUserData(data) {
+    localStorage.setItem('userData', JSON.stringify(data));
+}
+
+function getUserData() {
+    const data = localStorage.getItem('userData');
+    return data ? JSON.parse(data) : null;
+}
+
+// تحميل بيانات المستخدم عند بدء التشغيل
+window.addEventListener('load', () => {
+    const savedData = getUserData();
+    if (savedData) {
+        userData = savedData;
+        loginPage.classList.add('hidden');
+        mainPage.classList.remove('hidden');
+        updateStats();
+    }
+});
+
+// وظيفة تحديث الإحصاءات
+function updateStats() {
+    document.getElementById('ad-points').textContent = userData.adPoints;
+    document.getElementById('followers').textContent = userData.followers;
+    document.getElementById('youtube-points').textContent = userData.youtubePoints;
+    document.getElementById('vip-points').textContent = userData.vipPoints;
+    document.getElementById('referral-points').textContent = userData.referralPoints;
+    document.getElementById('user-level').textContent = userData.level;
+}
+  </script>
+</body>
+</html>
